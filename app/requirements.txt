@@ -1,0 +1,5 @@
+django
+mac-vendor-lookup
+scapy
+netifaces-0.11.0
+# netifaces

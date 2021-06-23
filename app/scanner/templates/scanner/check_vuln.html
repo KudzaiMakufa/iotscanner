@@ -8,64 +8,64 @@
                     <h4 class="page-title">{{title}}</h4>
                 </div>
                 <div class="col-sm-8 col-9 text-right m-b-20">
-                    <a href="{% url 'scanner:scan' %}" class="btn btn btn-primary btn-rounded float-right"><i class="fa fa-plus"></i> Scan Devices</a>
+                   
+                    <div class="text-right">
+                        <div class="dropdown dropdown-action">
+                            <a href="#" class="btn btn-sm btn-primary btn-rounded float-right"  data-toggle="dropdown" aria-expanded="false"><i class="fa fa-eye"></i> EXPLOITS </a>
+                            <!-- <a href="#" class="btn btn-sm btn-success btn-rounded float-righ" data-toggle="dropdown" aria-expanded="false"><i class="fa fa-ellipsis-v"></i>OPTIONS</a> -->
+                            <div class="dropdown-menu dropdown-menu-right">
+                                <!-- <a class="dropdown-item" href="{% url  'scanner:exploits' item.id  %}"><i class="fa fa-pencil m-r-5"></i>SCAN</a>
+                                <a class="dropdown-item" href="{% url  'scanner:delete' item.id  %}" data-toggle="modal" data-target="#delete_patient"><i class="fa fa-trash-o m-r-5"></i> Delete Device</a> -->
+                                <a class="dropdown-item" href="http://{{item.ipaddress}}:8080/shot.jpg"><i class="fa fa-pencil m-r-5"></i>Capture Image</a>
+                            </div>
+                        </div>
+                    </div>
                 </div>
             </div>
             <div class="row">
                 <div class="col-md-12">
                     <div class="table-responsive">
                         <table class="table table-border table-striped custom-table datatable mb-0">
-                            <thead>
-                                <tr>
-                                    <th></th>
-                                    <th>Ip Address</th>
-                                    <th>Mac Address</th>
-                                    <th>Vendor</th>
-                                   
-                                                         
-                                    <th class="text-right">Action</th>
-                                </tr>
-                            </thead>
+                      
                             <tbody>
+      
+                                <tr>
+                                    <td><b>Vendor</b> </td>
+                                    <td>{{item.vendor}}</td>
+                                </tr>  
 
-                                {% for item in scanners %}
-                                    <tr>
+                                <tr>
+                                  <td><b>Ip Address </b> </td>
+                                  <td>{{item.ipaddress}}</td>
+                                </tr>
+                  
+                             
+                             
+                                <tr>
+                                  <td><b>Mac Address</b> </td>
+                                  <td>{{item.macaddress}}</td>
+                                </tr>  
 
-                                        
-                                        <td><img width="28" height="28" src="{% static "assets/img/device.png" %}" class="rounded-circle m-r-5" alt=""> {{ item.firstname }} {{ item.surname }}</td>
-                                        <td>{{ item.ipaddress }}</td>
-                                        <td>{{ item.macaddress }}</td>
-                                        <td>{{ item.vendor }}</td>
-                                 
-                                        <td class="text-right">
-                                            <div class="dropdown dropdown-action">
-                                                <a href="#" class="btn btn-sm btn-success btn-rounded float-right"  data-toggle="dropdown" aria-expanded="false"><i class="fa fa-eye"></i> OPTIONS </a>
-                                                <!-- <a href="#" class="btn btn-sm btn-success btn-rounded float-righ" data-toggle="dropdown" aria-expanded="false"><i class="fa fa-ellipsis-v"></i>OPTIONS</a> -->
-                                                <div class="dropdown-menu dropdown-menu-right">
-                                                    <a class="dropdown-item" href="{% url  'scanner:exploits' item.id  %}"><i class="fa fa-pencil m-r-5"></i>SCAN</a>
-                                                    <a class="dropdown-item" href="{% url  'scanner:delete' item.id  %}" data-toggle="modal" data-target="#delete_patient"><i class="fa fa-trash-o m-r-5"></i> Delete Device</a>
-                                                    <!-- <a class="dropdown-item" href="http://{{item.ipaddress}}:8080/shot.jpg"><i class="fa fa-pencil m-r-5"></i>Capture Image</a> -->
-                                                </div>
-                                            </div>
-                                        </td>
-                                    </tr>
+                                <tr>
+                                  <td><b>Vulners</b> </td>
+                                
+                                  {% if not vulnerabilities %}
+                                     <td>No Vulnerabilities</td>
+                                     
+                                  {% else %}
+                                    {% for item in vulnerabilities %}
+                                    <td>{{item}}</td>
+                                    {% endfor %}
+                                  {% endif %}
+                                  
 
-                                    <div id="delete_patient" class="modal fade delete-modal" role="dialog">
-                                        <div class="modal-dialog modal-dialog-centered">
-                                            <div class="modal-content">
-                                                <div class="modal-body text-center">
-                                                    <img src="{% static "assets/img/device.png" %}" alt="device" width="50" height="46">
-                                                    <h3>Are you sure want to delete this Device?</h3>
-                                                    <div class="m-t-20"> <a href="#" class="btn btn-white" data-dismiss="modal">Close</a>
-                                                        
-                                                        <a href="{% url  'scanner:delete' item.id  %}" class="btn btn-danger">Delete</a>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                {% endfor %}
-                            </tbody>
+
+                                </tr>  
+                   
+                                
+                  
+                              </tbody>
+
                         </table>
                     </div>
                 </div>

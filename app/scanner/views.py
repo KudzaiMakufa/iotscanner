@@ -50,11 +50,12 @@ def scan_network(request):
             
             
             for client in clients_list:
-                vuln = []
+                
                 # get vendor 
                 ipaddress = client["ip"] 
                 macaddress = client["mac"]
                 vendor = ""
+                vulners = "None"
                 try:
                     vendor = MacLookup().lookup(str(macaddress))
                 except:
@@ -65,50 +66,14 @@ def scan_network(request):
                 data.ipaddress = ipaddress 
                 data.vendor = vendor
                 data.macaddress = macaddress
+                data.vulners = vulners
 
                 # check if ip and mac exit before saving
                 
 
                 ipexist = Scanner.objects.filter(ipaddress=ipaddress).exists()
                 if(not ipexist):
-                    
-                    
-                    # check ipcamera vulnerability open port no auth 
-                    url = 'http://'+ipaddress+':8080/shot.jpg'
-                    
-                    try:
-                        r = requests.get(url)
-                        if(r.status_code == 200):
-                            vuln.append("open_port")
-                            vuln.append("no_pass")
-                          
-          
-                    except ConnectionError as e: 
-                        # no action here connection failure    
-                        print("error on this")
-                    
-                    
-
-                    # check ipcamera vulnerability open port , weak passwrd  
-                    url = 'http://'+ipaddress+':8080/shot.jpg'
-                    
-                    try:
-                        r = requests.get(url,auth=('admin', 'admin123'))
-                        if(r.status_code == 200):
-                            vuln.append("weak_pass")
-
-                    except ConnectionError as e: 
-                        # no action here connection failure    
-                        print("error on this auth")
-
-                    
-                    
-                    
-                    print(vuln)            
-                    # pump in db 
-                    
-                    # convert to list
-                    data.vulners = ",".join(vuln)
+  
                     data.save()
             
                 print(client["ip"] + "\t\t" + client["mac" ])
@@ -147,6 +112,59 @@ def display_history(request):
 
     # print(data_list)
     return render(request, 'scanner/history.html', context)
+
+def scan_vulnerabilities(request ,device_id=None):
+    iotdevice = Scanner.objects.get(pk=device_id)
+    vuln = []
+
+    # check ipcamera vulnerability open port , weak passwrd  
+    url = 'http://'+iotdevice.ipaddress+':8080/shot.jpg'
+    
+    try:
+        r = requests.get(url,auth=('admin', 'admin123'))
+        if(r.status_code == 200):
+            vuln.append("weak_pass")
+
+    except ConnectionError as e: 
+        # no action here connection failure    
+        print("error on this auth")
+
+    
+     
+    # check ipcamera vulnerability open port no auth 
+    
+    try:
+        r = requests.get(url)
+        if(r.status_code == 200):
+            vuln.append("open_port")
+            vuln.append("no_pass")
+            
+
+    except ConnectionError as e: 
+        # no action here connection failure    
+        print("error on this")
+                    
+
+    
+    
+    
+    print(vuln)            
+    # pump in db 
+    
+    # convert to list
+    iotdevice.vulners = ",".join(vuln)
+    iotdevice.save()
+
+   
+    context = {
+        'item': iotdevice, 
+        'vulnerabilities':iotdevice.vulners.split(',') , 
+         'title': "Vulnerability scan" 
+    }
+
+    # print(data_list)
+    return render(request, 'scanner/check_vuln.html', context)
+
 
 def livecam(request ,device_id=None):
     iotdevice = Scanner.objects.get(pk=device_id)

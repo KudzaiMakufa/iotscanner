@@ -47,20 +47,50 @@
                                 </tr>  
 
                                 <tr>
-                                  <td><b>Vulners</b> </td>
-                                
-                                  {% if not vulnerabilities %}
-                                     <td>No Vulnerabilities</td>
-                                     
-                                  {% else %}
-                                    {% for item in vulnerabilities %}
-                                    <td>{{item}}</td>
-                                    {% endfor %}
-                                  {% endif %}
-                                  
-
+                                  <td><b><h4>VULNERABILITIES</h4></b> </td>
+                                  <td><b><h4>RECOMMENDATION</h4></b> </td>
 
                                 </tr>  
+
+                                     {% if not vulnerabilities %}
+                                        <tr>
+                                            <td> No Vulnerabilities</td>
+                                        
+                                        </tr>
+                                    
+                                    {% else %}
+
+                                        {% for item in vulnerabilities %}
+                                            
+                                                {% if item == "weak_pass" %}
+                                                    <tr>
+                                                        <td>{{item}}</td>
+                                                        <td>Use a strong password</td>
+                                                    </tr>
+                                               
+                                                {% endif %}
+
+                                                {% if item == "open_port" %}
+                                                    <tr>
+                                                        <td>{{item}}</td>
+                                                        <td>Avoid default ports</td>
+                                                    </tr>
+                                               
+                                                {% endif %}
+
+                                                {% if item == "no_pass" %}
+                                                    <tr>
+                                                        <td>{{item}}</td>
+                                                        <td>Add authentication (Open to public)</td>
+                                                    </tr>
+                                               
+                                                {% endif %}
+                                                
+                                            
+
+                                        {% endfor %}
+                                    {% endif %}
+                              
                    
                                 
                   
@@ -71,6 +101,74 @@
                 </div>
             </div>
         </div>
+
+        <div class="container">
+
+            {% for item in issues %}
+
+                <div class="row">
+                    <div class="col-md-12">
+                            <div class="row">
+                                <div class="col-sm-4">
+                                    <b> Title</b>
+                                
+                                </div>
+                                <div class="col-sm-8">
+                                    {{item.title}}
+                                </div>
+                            </div>
+            
+                    </div>
+                </div>
+                <br>
+
+                <div class="row">
+                    <div class="col-md-12">
+                            <div class="row">
+                                <div class="col-sm-4">
+                                <b>Description</b>
+                                </div>
+                                <div class="col-sm-8">
+                                    {{item.description}}
+                                </div>
+                            </div>
+            
+                    </div>
+                </div>
+                <br>
+                <div class="row">
+                    <div class="col-md-12">
+                            <div class="row">
+                                <div class="col-sm-4">
+                                <b>Recommendation</b>
+                                </div>
+                                <div class="col-sm-8">
+                                    <!--  -->
+                                    <div class="col-sm-8">
+                                        {% if item.cvelist.0 is not None  %}
+                                            <a class="btn-primary btn-sm" href="{% url 'scanner:view_recommendation' item.cvelist.0 %}">View Recommendations</a>
+                                        {% else %}
+                                            
+                                        {% endif %}
+                                       
+                                    </div>
+                                
+                                </div>
+                            </div>
+            
+                    </div>
+                </div>
+
+
+                
+            <br>
+            <hr>
+            <br>
+
+            {% endfor %}
+
+        </div>
+        
         <div class="notification-box">
             <div class="msg-sidebar notifications msg-noti">
                 <div class="topnav-dropdown-header">

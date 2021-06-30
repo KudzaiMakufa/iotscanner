@@ -1,4 +1,7 @@
-import netifaces
-gateways = netifaces.gateways()
-default_gateway = gateways['default'][netifaces.AF_INET][0]
-print(default_gateway)
+import requests
+
+r = requests.get('http://192.168.0.1/login.htm', auth=('Admin', ''))
+
+
+print(r.content)
+

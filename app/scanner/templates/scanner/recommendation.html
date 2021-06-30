@@ -1,0 +1,56 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block content %}
+
+<div class="page-wrapper">
+    <div class="content">
+        <div class="row">
+            <div class="col-sm-12 col-3">
+                <h4 class="page-title"><b>Upgrade to Software Version Greater than Below</b> </h4>
+            </div>
+          
+            </div>
+        </div>
+
+
+        <div class="row">
+            <div class="col-md-12">
+                    <div class="row m-auto">
+                        
+                        <div class="col-sm-8">
+                            {% for afsoft in data %}
+                            <div class="row">
+                                <div class="col-4">
+                                CPN NAME
+                                </div>
+                                <div class="col-8">
+                                {{afsoft.cpeName}}
+                                </div>
+                            </div>
+                             <div class="row">
+                                <div class="col-4">
+                                NAME
+                                </div>
+                                <div class="col-8">
+                                {{afsoft.name}}
+                                </div>
+                            </div>
+                             <div class="row">
+                                <div class="col-4">
+                                Version
+                                </div>
+                                <div class="col-8">
+                                {{afsoft.version}}
+                                </div>
+                            </div>
+                            <hr>
+                            {% endfor %}
+                        </div>
+                    </div>
+    
+            </div>
+        </div>
+    
+    </div>
+</div>
+{% endblock %}

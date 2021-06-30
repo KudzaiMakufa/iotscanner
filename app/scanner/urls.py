@@ -7,5 +7,6 @@ urlpatterns = [
     path('delete/<int:device_id>', views.device_delete , name="delete"),
     path('livecam/<int:device_id>', views.livecam , name="livecam"),
     path('exploits/<int:device_id>', views.scan_vulnerabilities, name="exploits"),
+    path('view_recommendation/<str:cve_id>', views.view_recommendation, name="view_recommendation"),
     
 ]

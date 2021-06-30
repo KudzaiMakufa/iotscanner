@@ -21,7 +21,9 @@ typing-extensions==3.10.0.0
 urllib3==1.26.5
 yarl==1.6.3
 netifaces
-
+vulners==1.5.11
+pymongo[snappy,gssapi,srv,tls
+dnspython
 
 
 

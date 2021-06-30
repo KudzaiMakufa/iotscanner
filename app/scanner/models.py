@@ -13,3 +13,4 @@ class Scanner(models.Model):
     ipaddress = models.CharField(default=None ,max_length=100)
     macaddress = models.CharField(default=None ,max_length=100)
     vulners = models.CharField(default=None ,max_length=100)
+    os_name = models.CharField(default=None ,max_length=100)

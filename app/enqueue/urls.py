@@ -17,6 +17,7 @@ from django.contrib import admin
 from django.urls import path
 
 from scanner import urls as scanner_urls
+from home import urls as home_urls
 
 from django.urls import path, include
 
@@ -24,4 +25,5 @@ urlpatterns = [
     path('admin/', admin.site.urls),
 
     path('scanner/', include(scanner_urls, namespace="scanner")),
+    path('home/', include(home_urls, namespace="home")),
 ]
